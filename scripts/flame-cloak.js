@@ -39,6 +39,29 @@ Hooks.once("ready", () => {
 
       const damageRoll = await new Roll("1d6").roll({ async: true });
       await game.dice3d?.showForRoll(damageRoll);
+      await damageRoll.toMessage({
+        speaker: ChatMessage.getSpeaker({ actor: targetActor }),
+        flavor: `${target.name}'s Flame Cloak scorches ${attackerToken.name}!`,
+      });
+      
+      new MidiQOL.DamageOnlyWorkflow(
+        targetActor,
+        target,
+        damageRoll.total,
+        "fire",
+        [attackerToken],
+        damageRoll,
+        {
+          flavor: `${target.name}'s Flame Cloak scorches ${attackerToken.name}!`,
+          itemCardId: item?.uuid || null,
+          itemData: item,
+          isCritical: false
+        }
+      );
+
+    /*
+      const damageRoll = await new Roll("1d6").roll({ async: true });
+      await game.dice3d?.showForRoll(damageRoll);
 
       await damageRoll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: targetActor }),
@@ -50,6 +73,7 @@ Hooks.once("ready", () => {
       } else {
         console.warn("🔥 Flame Cloak: applyDamage() not available on attacker actor.");
       }
+      */
     }
   });
 });

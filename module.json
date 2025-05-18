@@ -1,6 +1,5 @@
 {
   "id": "akaris-options",
-  "type": "module",
   "title": "Akari's Options",
   "description": "Custom options and automation scripts for Akari's campaigns, including Flame Cloak retaliation.",
   "version": "0.1.0",
@@ -22,13 +21,9 @@
   "languages": [],
   "packs": [],
   "system": "dnd5e",
-  "manifest": "https://hexwitch.info/modules/akaris-options/module.json",
-  "url": "https://hexwitch.info/modules/akaris-options",
-  "download": "https://hexwitch.info/modules/akaris-options.zip",
-  "readme": "https://hexwitch.info/modules/akaris-options/README.md",
-  "bugs": "https://hexwitch.info/modules/akaris-options/issues",
-  "changelog": "https://hexwitch.info/modules/akaris-options/changelog.json",
-  "license": "https://hexwitch.info/modules/akaris-options/LICENSE",
+  "manifest": "https://raw.githubusercontent.com/morrigangirl/akaris-options/download/0.1.0/module.json",
+  "url": "https://github.com/morrigangirl/akaris-options",
+  "download": "https://github.com/morrigangirl/akaris-options/releases/download/0.1.0/akaris-options.zip",
   "media": [
     {
       "type": "icon",
