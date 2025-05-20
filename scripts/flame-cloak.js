@@ -27,10 +27,9 @@ Hooks.once("ready", () => {
 
     for (const target of targets) {
       const targetActor = target.actor;
-      const flagExists = targetActor?.flags?.["midi-qol"]?.hasOwnProperty("flameCloak");
       const flagValue = targetActor?.flags?.["midi-qol"]?.flameCloak;
 
-      if (!flagExists || flagValue !== true) {
+      if (!flagValue == true) {
         console.log(`🔥 Flame Cloak: ${target.name} does NOT have the flameCloak flag active.`);
         continue;
       }
