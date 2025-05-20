@@ -21,7 +21,7 @@
     {
       "name": "homebrew-items",
       "label": "Akari's Homebrew Items",
-      "path": "packs/homebrew-items.db",
+      "path": "packs/akaris-items.db",
       "type": "Item",
       "system": "dnd5e"
     }
