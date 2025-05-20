@@ -2,7 +2,7 @@
   "id": "akaris-options",
   "title": "Akari's Options",
   "description": "Custom options and automation scripts for Akari's campaigns, including Flame Cloak retaliation.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "authors": [
     {
       "name": "Akari",
@@ -31,9 +31,9 @@
       "system": "dnd5e"
     }
   ],
-  "manifest": "https://raw.githubusercontent.com/morrigangirl/akaris-options/download/0.1.0/module.json",
+  "manifest": "https://raw.githubusercontent.com/morrigangirl/akaris-options/download/0.1.1/module.json",
   "url": "https://github.com/morrigangirl/akaris-options",
-  "download": "https://github.com/morrigangirl/akaris-options/releases/download/0.1.0/akaris-options.zip",
+  "download": "https://github.com/morrigangirl/akaris-options/releases/download/0.1.1/akaris-options.zip",
   "media": [
     {
       "type": "icon",
