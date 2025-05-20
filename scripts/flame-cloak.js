@@ -37,12 +37,7 @@ Hooks.once("ready", () => {
       console.log(`🔥 Flame Cloak: Retaliating against ${attackerToken.name} for attacking ${target.name} with a melee weapon.`);
 
       let damageRoll = await new Roll("1d6").roll();
-      damageRoll.roll();
       await game.dice3d?.showForRoll(damageRoll);
-      await damageRoll.toMessage({
-        speaker: ChatMessage.getSpeaker({ actor: targetActor }),
-        flavor: `${target.name}'s Flame Cloak scorches ${attackerToken.name}!`,
-      });
       
       new MidiQOL.DamageOnlyWorkflow(
         targetActor,
