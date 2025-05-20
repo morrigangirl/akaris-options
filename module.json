@@ -17,6 +17,15 @@
   "scripts": [
     "scripts/flame-cloak.js"
   ],
+  "packs": [
+    {
+      "name": "homebrew-items",
+      "label": "Akari's Homebrew Items",
+      "path": "packs/homebrew-items.db",
+      "type": "Item",
+      "system": "dnd5e"
+    }
+  ],
   "styles": [],
   "languages": [],
   "packs": [],
