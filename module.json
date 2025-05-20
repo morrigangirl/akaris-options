@@ -5,8 +5,9 @@
   "version": "0.1.0",
   "authors": [
     {
-      "name": "Akari the Badass",
-      "url": "https://hexwitch.info",
+      "name": "Akari",
+      "url": "https://github.com/morrignagirl/akaris-options",
+      "discord": "Akari",
       "flags": {}
     }
   ],
@@ -19,17 +20,17 @@
   ],
   "packs": [
     {
-      "name": "homebrew-items",
-      "label": "Akari's Homebrew Items",
-      "path": "packs/akaris-items.db",
+      "name": "akaris-items",
+      "label": "Akaris Items",
+      "path": "packs/akaris-items",
       "type": "Item",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
       "system": "dnd5e"
     }
   ],
-  "styles": [],
-  "languages": [],
-  "packs": [],
-  "system": "dnd5e",
   "manifest": "https://raw.githubusercontent.com/morrigangirl/akaris-options/download/0.1.0/module.json",
   "url": "https://github.com/morrigangirl/akaris-options",
   "download": "https://github.com/morrigangirl/akaris-options/releases/download/0.1.0/akaris-options.zip",
@@ -40,5 +41,14 @@
       "loop": false,
       "flags": {}
     }
-  ]
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "dnd5e",
+        "type": "system",
+        "compatibility": {}
+      }
+    ]
+  }
 }
