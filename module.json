@@ -16,7 +16,8 @@
     "verified": "12"
   },
   "scripts": [
-    "scripts/flame-cloak.js"
+    "scripts/flame-cloak.js",
+    "scripts/create-bonfire.js"
   ],
   "packs": [
     {
