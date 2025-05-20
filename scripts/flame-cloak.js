@@ -36,7 +36,7 @@ Hooks.once("ready", () => {
 
       console.log(`🔥 Flame Cloak: Retaliating against ${attackerToken.name} for attacking ${target.name} with a melee weapon.`);
 
-      const damageRoll = await new Roll("1d6").roll({ async: true });
+      let damageRoll = await new Roll("1d6").roll();
       await game.dice3d?.showForRoll(damageRoll);
       await damageRoll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: targetActor }),
