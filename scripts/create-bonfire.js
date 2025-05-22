@@ -1,9 +1,10 @@
-Hooks.on("midi-qol.preItemRollComplete", async (workflow) => {
-  if (!workflow || !workflow.item) return;
-  console.log("Create Bonfire Hooked");
+let socket;
 
-  // Match by name (case sensitive!)
-  if (workflow.item.name === "Create Bonfire") {
-    console.log("🔥 Create Bonfire was cast by:", workflow.actor.name);
-  }
+Hooks.once("socketlib.ready", () => {
+	socket = socketlib.registerModule("akaris-options");
+	socket.register("sockCreateBonfire", sockCreatebonfire);
 });
+
+function sockCreateBonfire(userName) {
+	console.log(`User ${userName} called CreateBonfire!`);
+}

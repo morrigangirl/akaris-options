@@ -15,6 +15,15 @@
     "minimum": "11",
     "verified": "12"
   },
+  "relationships": {
+  "requires": [
+    {
+      "id": "socketlib",
+      "type": "module",
+      "manifest": "https://github.com/farling42/foundryvtt-socketlib/releases/latest/download/module.json"
+    }
+  ]
+  },
   "scripts": [
     "scripts/flame-cloak.js",
     "scripts/create-bonfire.js"
