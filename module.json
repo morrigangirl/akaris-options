@@ -3,6 +3,7 @@
   "title": "Akari's Options",
   "description": "Custom options and automation scripts for Akari's campaigns, including Flame Cloak retaliation.",
   "version": "0.1.1",
+  "socket": true,
   "authors": [
     {
       "name": "Akari",
