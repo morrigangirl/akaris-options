@@ -107,7 +107,7 @@ async function akariCreateTileAndReturnId(tileParams) {
           "request": "save:dex",
           "dc": "10",
           "flavor": "Burned by the Bonfire",
-          "rollmode": "roll",
+          "rollmode": "none",
           "silent": true,
           "fastforward": true,
           "usetokens": "fail",
@@ -135,7 +135,7 @@ async function akariCreateTileAndReturnId(tileParams) {
 
   ui.notifications.info("🔥 Bonfire tile created and activated!");
   return newTile.id;
-  
+
 }
    
 
