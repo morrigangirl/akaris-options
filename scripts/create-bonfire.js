@@ -45,16 +45,14 @@ async function akariCreateTileAndReturnId(tileParams) {
 
   // Control/select the tile
   placedTile.control({ releaseOthers: true });
-
   // Define Monk's Active Tile flags
-await newTile.document.update({'flags.monks-active-tiles': {"name":"Bonfire Tile","active":true,"record":false,"restriction":"all","controlled":"all","trigger":["enter","turnend"],"allowpaused":false,"usealpha":false,"pointer":false,"vision":true,"pertoken":false,"minrequired":0,"cooldown":null,"chance":100,"fileindex":0,"actions":[{"action":"anchor","data":{"tag":"_turnend","stop":false},"id":"aF73wfmzs8Gi7MFF"},{"action":"distance","data":{"entity":{"id":"token","name":"Triggering Token"},"measure":"lt","distance":{"value":1,"var":"px"},"from":"edge","continue":"within"},"id":"KnC5lBAma7IrloY0"},{"action":"monks-tokenbar.requestroll","data":{"entity":{"id":"token","name":"Triggering Token"},"request":"save:dex","dc":"10","flavor":"Burned by Bonfire","rollmode":"roll","silent":true,"fastforward":true,"usetokens":"fail","continue":"always"},"id":"p4L3rH8jcchrzxxz"},{"action":"hurtheal","data":{"entity":{"id":"token","name":"Triggering Token"},"value":"-[[1d8]]","chatMessage":true,"rollmode":"roll","showdice":true},"id":"QfOP4fBUzzBZ1Nzo"},{"action":"anchor","data":{"tag":"_enter","stop":true},"id":"2Y4aUUDrGWL7MfHz"},{"action":"monks-tokenbar.requestroll","data":{"entity":{"id":"token","name":"Triggering Token"},"request":"save:dex","dc":"10","flavor":"Burned by the Bonfire","rollmode":"roll","silent":true,"fastforward":true,"usetokens":"fail","continue":"always"},"id":"EM5ROfDwUuwiR23d"},{"action":"hurtheal","data":{"entity":{"id":"token","name":"Triggering Token"},"value":"-[[1d8]]","chatMessage":true,"rollmode":"roll","showdice":true},"id":"O5QIu5UUhEMb5see"}],"files":[]}});
-}
+  await placedTile.document.update({'flags.monks-active-tiles': {"name":"Bonfire Tile","active":true,"record":false,"restriction":"all","controlled":"all","trigger":["enter","turnend"],"allowpaused":false,"usealpha":false,"pointer":false,"vision":true,"pertoken":false,"minrequired":0,"cooldown":null,"chance":100,"fileindex":0,"actions":[{"action":"anchor","data":{"tag":"_turnend","stop":false},"id":"aF73wfmzs8Gi7MFF"},{"action":"distance","data":{"entity":{"id":"token","name":"Triggering Token"},"measure":"lt","distance":{"value":1,"var":"px"},"from":"edge","continue":"within"},"id":"KnC5lBAma7IrloY0"},{"action":"monks-tokenbar.requestroll","data":{"entity":{"id":"token","name":"Triggering Token"},"request":"save:dex","dc":"10","flavor":"Burned by Bonfire","rollmode":"roll","silent":true,"fastforward":true,"usetokens":"fail","continue":"always"},"id":"p4L3rH8jcchrzxxz"},{"action":"hurtheal","data":{"entity":{"id":"token","name":"Triggering Token"},"value":"-[[1d8]]","chatMessage":true,"rollmode":"roll","showdice":true},"id":"QfOP4fBUzzBZ1Nzo"},{"action":"anchor","data":{"tag":"_enter","stop":true},"id":"2Y4aUUDrGWL7MfHz"},{"action":"monks-tokenbar.requestroll","data":{"entity":{"id":"token","name":"Triggering Token"},"request":"save:dex","dc":"10","flavor":"Burned by the Bonfire","rollmode":"roll","silent":true,"fastforward":true,"usetokens":"fail","continue":"always"},"id":"EM5ROfDwUuwiR23d"},{"action":"hurtheal","data":{"entity":{"id":"token","name":"Triggering Token"},"value":"-[[1d8]]","chatMessage":true,"rollmode":"roll","showdice":true},"id":"O5QIu5UUhEMb5see"}],"files":[]}});
 
 
   ui.notifications.info("Monk's Tile Update.")
 
   ui.notifications.info("🔥 Bonfire tile created and activated!");
-  return newTile.id;
+  return placedtile.id;
 
 }
    
