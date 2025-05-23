@@ -40,6 +40,17 @@
         "ASSISTANT": "OWNER"
       },
       "system": "dnd5e"
+    },
+    {
+      "name": "akaris-macros",
+      "label": "Akaris Macros",
+      "path" : "packs/akaris-macros",
+      "type" : "Macro",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "system": "dnd5e"
     }
   ],
   "manifest": "https://raw.githubusercontent.com/morrigangirl/akaris-options/download/0.1.1/module.json",
