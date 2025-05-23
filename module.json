@@ -53,7 +53,7 @@
       "system": "dnd5e"
     }
   ],
-  "manifest": "https://raw.githubusercontent.com/morrigangirl/akaris-options/download/0.1.2/module.json",
+  "manifest": "https://github.com/morrigangirl/akaris-options/releases/download/0.1.2/module.json",
   "url": "https://github.com/morrigangirl/akaris-options",
   "download": "https://github.com/morrigangirl/akaris-options/releases/download/0.1.2/akaris-options.zip",
   "media": [
