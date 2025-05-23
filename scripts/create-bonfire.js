@@ -52,7 +52,7 @@ async function akariCreateTileAndReturnId(tileParams) {
   ui.notifications.info("Monk's Tile Update.")
 
   ui.notifications.info("🔥 Bonfire tile created and activated!");
-  return placedtile.id;
+  return placedTile.id;
 
 }
    
