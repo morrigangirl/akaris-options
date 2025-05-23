@@ -88,7 +88,7 @@ async function akariCreateTileAndReturnId(tileParams) {
             request: "save:dex",
             dc: "10",
             flavor: "Burned by Bonfire",
-            rollmode: "none",  // <- use "none" to avoid UI errors with midi-qol
+            rollmode: "roll",  // <- use "none" to avoid UI errors with midi-qol
             silent: true,
             fastforward: true,
             usetokens: "fail",
@@ -119,7 +119,7 @@ async function akariCreateTileAndReturnId(tileParams) {
             request: "save:dex",
             dc: "10",
             flavor: "Burned by the Bonfire",
-            rollmode: "none",  // <- same here to prevent chat-related errors
+            rollmode: "roll",  // <- same here to prevent chat-related errors
             silent: true,
             fastforward: true,
             usetokens: "fail",
@@ -146,6 +146,8 @@ async function akariCreateTileAndReturnId(tileParams) {
   await newTile.update({
     'flags.monks-active-tiles': monksFlags
   });
+
+  ui.notifications.info("Monk's Tile Update.")
 
   ui.notifications.info("🔥 Bonfire tile created and activated!");
   return newTile.id;
