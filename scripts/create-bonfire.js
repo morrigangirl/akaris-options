@@ -21,7 +21,7 @@ async function akariCreateTileAndReturnId(tileParams) {
     return null;
   }
 	const tileData = {
-		img: tileParams.img || "icons/svg/explosion.svg",
+		img: tileParams.img || "modules/jb2a_patreon/Library/Generic/Fire/Eruption_01_Regular_Blue_600x600.webm",
 		x: tileParams.x,
 		y: tileParams.y,
 		width: tileParams.width,
