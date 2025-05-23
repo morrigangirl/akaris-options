@@ -6,6 +6,21 @@ Hooks.once("socketlib.ready", () => {
 	akariSocket.register("akariTileAndReturnId", akariCreateTileAndReturnId);
 });
 
+Hooks.on("deleteActiveEffect", async (effect) => {
+  const actor = effect.parent;
+  if (!actor || !effect.getFlag("core", "statusId") === "concentration") return;
+
+  const tileId = effect.getFlag("akaris-options", "bonfireTileId");
+  if (!tileId) return;
+
+  const scene = game.scenes.get(actor.parent?.id || canvas.scene.id);
+  const tile = scene.tiles.get(tileId);
+  if (!tile) return;
+
+  await scene.deleteEmbeddedDocuments("Tile", [tileId]);
+  ui.notifications.info("🔥 Bonfire extinguished (concentration ended).");
+});
+
 function akariCreateBonfire(userName) {
 	console.log(`User ${userName} called CreateBonfire!`);
 }
