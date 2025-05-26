@@ -1,6 +1,7 @@
 Hooks.on("midi-qol.RollComplete", async (workflow) => {
   // Validate it's a weapon attack
   if (!workflow || workflow.item?.type !== "weapon") return;
+  console.log("Holy Avenger Damage Triggered.")
 
   // Check weapon name matches Holy Avenger (case-insensitive match)
   const weaponName = workflow.item.name.toLowerCase();
