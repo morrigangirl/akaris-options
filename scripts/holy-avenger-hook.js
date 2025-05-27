@@ -1,68 +1,99 @@
-console.log("🛡️ Holy Avenger Code Loaded");
+console.log("🛡️ Holy Avenger Module Code Loaded");
 
 Hooks.once("ready", () => {
-  console.log("🛡️ Holy Avenger Damage Hook Initialized");
+  console.log("🛡️ Holy Avenger Hook Initialized: midi-qol.postDamageRollComplete");
 
-  Hooks.on("midi-qol.preDamageRoll", async (workflow) => {
-    console.log("🔁 [Hook: midi-qol.preAttackRoll] Fired");
+  Hooks.on("midi-qol.postDamageRollComplete", async (workflow) => {
+    console.log("🔁 [Hook Fired] midi-qol.postDamageRollComplete");
 
-    const item = workflow.item;
-    console.log(`📦 Item: ${item?.name ?? "None"}`);
-    if (!item) {
-      console.log("❌ [Step 1] No item found in workflow.");
+    if (!workflow) {
+      console.log("❌ No workflow object passed.");
       return;
     }
 
+    const item = workflow.item;
+    const actor = workflow.actor;
+    const token = workflow.token;
+
+    if (!item) {
+      console.log("❌ [Step 1] No item in workflow.");
+      return;
+    }
+
+    console.log(`📦 [Step 1] Item name: ${item.name}, Type: ${item.type}`);
+
     if (item.type !== "weapon") {
-      console.log(`❌ [Step 2] Item is not a weapon. Type: ${item.type}`);
+      console.log("❌ [Step 2] Item is not a weapon. Skipping.");
       return;
     }
     console.log("✅ [Step 2] Item is a weapon.");
 
+    // Check if weapon has an Active Effect named "Holy Avenger"
     const effects = item.effects;
-    console.log(`🧪 [Step 3] Item has ${effects?.size ?? 0} active effects.`);
+    const effectCount = effects?.size ?? 0;
+    console.log(`🧪 [Step 3] Item has ${effectCount} active effects.`);
 
     const hasHolyAvengerEffect = Array.from(effects ?? []).some(effect => {
-      const isMatch = effect.name?.toLowerCase() === "holy avenger";
-      console.log(`🔍 Checking effect: "${effect.name}" — Match: ${isMatch}`);
-      return isMatch;
+      const match = effect.name?.toLowerCase() === "holy avenger";
+      console.log(`🔍 Checking effect "${effect.name}" → Match: ${match}`);
+      return match;
     });
 
     if (!hasHolyAvengerEffect) {
       console.log("❌ [Step 4] No Active Effect named 'Holy Avenger' found on item.");
       return;
     }
-    console.log("✅ [Step 4] Found 'Holy Avenger' effect on item.");
 
-    const targets = Array.from(workflow?.targets ?? []);
-    console.log(`🎯 [Step 5] Number of targets: ${targets.length}`);
+    console.log("✅ [Step 4] 'Holy Avenger' effect found on weapon.");
 
-    const target = targets[0];
-    if (!target || !target.actor) {
-      console.log("❌ [Step 5] No valid target or target has no actor.");
+    // Proceed with checking targets
+    const targets = Array.from(workflow.hitTargets ?? []);
+    console.log(`🎯 [Step 5] Hit Targets Count: ${targets.length}`);
+
+    if (targets.length === 0) {
+      console.log("❌ [Step 5] No hit targets. Skipping.");
       return;
     }
-    console.log(`✅ [Step 5] Target acquired: ${target.name}`);
 
-    const creatureType = target.actor.system.details?.type?.value?.toLowerCase() ?? "unknown";
-    console.log(`🔍 [Step 6] Target creature type: ${creatureType}`);
+    for (const target of targets) {
+      console.log(`📌 [Step 6] Processing Target: ${target.name}`);
+      const targetActor = target.actor;
 
-    if (!["fiend", "undead"].includes(creatureType)) {
-      console.log("❌ [Step 6] Target is not Fiend or Undead.");
-      return;
+      if (!targetActor) {
+        console.log(`❌ [Step 6] Target ${target.name} has no actor.`);
+        continue;
+      }
+
+      const type = targetActor.system.details?.type?.value?.toLowerCase() ?? "unknown";
+      console.log(`🔍 [Step 7] Target Type: ${type}`);
+
+      if (!["fiend", "undead"].includes(type)) {
+        console.log(`⛔ [Step 7] Target ${target.name} is not Fiend or Undead.`);
+        continue;
+      }
+
+      console.log(`✅ [Step 7] Target ${target.name} is Fiend or Undead. Applying bonus damage.`);
+
+      const damageRoll = await new Roll("2d10").roll({ async: true });
+      console.log(`🎲 [Step 8] Radiant Damage Roll: ${damageRoll.total}`);
+      await game.dice3d?.showForRoll(damageRoll);
+
+      // Apply the bonus damage
+      console.log("🚀 [Step 9] Triggering MidiQOL.DamageOnlyWorkflow");
+      new MidiQOL.DamageOnlyWorkflow(
+        actor,
+        token,
+        damageRoll.total,
+        "radiant",
+        [target],
+        damageRoll,
+        {
+          flavor: `${actor.name}'s Holy Avenger smites ${target.name} with radiant force!`,
+          itemCardId: workflow.itemCardId ?? "new",
+          damageRoll,
+          isBonus: true
+        }
+      );
     }
-    console.log("✅ [Step 6] Target is Fiend or Undead. Preparing to apply bonus damage.");
-    const cloned = foundry.utils.deepClone(workflow.item.system);
-    console.log(`Clone Data: ${cloned}.`);
-
-    // Ensure path exists before modifying
-    if (!cloned.damage) cloned.damage = {};
-    if (!Array.isArray(cloned.damage.parts)) cloned.damage.parts = [];
-
-    cloned.damage.parts.push(["2d10", "radiant"]);
-    console.log("✅ Appended 2d10 radiant to cloned damage parts.");
-
-    workflow.overrideItemData = cloned;
-    console.log("✅ overrideItemData set on workflow.");
   });
 });
