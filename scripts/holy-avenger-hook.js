@@ -7,7 +7,10 @@ Hooks.once("ready", () => {
     console.log("Executing preAttackRoll Hook for 🛡️ Holy Avenger!");
 
     const item = workflow.item;
-    if (!item || item.type !== "weapon") return;
+    if (!item || item.type !== "weapon") {
+      console.log(`${item.type} not weapon.`);
+      return;
+    }
 
     // Check for an Active Effect on the weapon named "Holy Avenger"
     const hasHolyAvengerEffect = item.effects?.some(effect => {
