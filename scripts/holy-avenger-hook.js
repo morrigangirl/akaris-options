@@ -1,24 +1,33 @@
-Hooks.on("midi-qol.RollComplete", async (workflow) => {
-  // Validate it's a weapon attack
-  if (!workflow || workflow.item?.type !== "weapon") return;
-  console.log("Holy Avenger Damage Triggered.")
+Hooks.on("dnd5e.preRollDamage", async (item, config, options) => {
+  if (!item || item.type !== "weapon") return;
 
-  // Check weapon name matches Holy Avenger (case-insensitive match)
-  const weaponName = workflow.item.name.toLowerCase();
+  // Check weapon name
+  const weaponName = item.name?.toLowerCase() || "";
   if (!weaponName.includes("holy avenger")) return;
 
-  // Get the first valid target
-  const target = workflow.targets.first();
+  // Only apply to melee or ranged weapon attacks
+  const actionType = item.system.actionType;
+  if (!["mwak", "rwak"].includes(actionType)) return;
+
+  // Must have a valid target
+  const target = Array.from(game.user.targets)[0];
   if (!target) return;
 
-  // Check target creature type
-  const type = target.actor?.system?.details?.type?.value?.toLowerCase() || "";
-  if (!(type.includes("fiend") || type.includes("undead"))) return;
+  const targetActor = target.actor;
+  if (!targetActor) return;
 
-  // Add bonus damage
-  const bonusRoll = await new Roll("2d10[radiant]").roll({ async: true });
-  await workflow.damageBonus.push({
-    damage: bonusRoll,
-    flavor: "Holy Avenger - Extra vs Fiends/Undead"
-  });
+  // Check for creature type Fiend or Undead
+  const creatureType = targetActor.system.details?.type?.value?.toLowerCase() || "";
+  if (!["fiend", "undead"].includes(creatureType)) return;
+
+  // Append 2d10 radiant damage
+  const bonusDamage = {
+    parts: [["2d10", "radiant"]],
+    flavor: "Holy Avenger: extra damage vs Fiend/Undead"
+  };
+
+  if (!config.damageRoll) config.damageRoll = {};
+  if (!config.damageRoll.criticalBonusDice) config.damageRoll.criticalBonusDice = [];
+
+  config.damageBonusParts = (config.damageBonusParts || []).concat(bonusDamage.parts);
 });
