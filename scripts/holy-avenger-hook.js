@@ -53,15 +53,14 @@ Hooks.once("ready", () => {
     }
     console.log("✅ [Step 6] Target is Fiend or Undead. Preparing to apply bonus damage.");
 
-    if (!workflow.damageRollBonusParts) {
-      workflow.damageRollBonusParts = [];
-      console.log("ℹ️ [Step 7] Initialized damageRollBonusParts array.");
-    }
 
-    workflow.damageRollBonusParts.push(["2d10", "radiant"]);
-    console.log("✅ [Step 7] Appended 2d10 radiant damage to damageRollBonusParts.");
 
-    // Optional: mark the workflow for review
-    console.log("🎉 [DONE] Holy Avenger bonus damage configured.");
+  // Clone item data and inject new damage part
+  const cloned = foundry.utils.deepClone(workflow.item.system);
+  cloned.damage.parts.push(["2d10", "radiant"]);
+  console.log("✅ Adding 2d10 radiant to item damage parts.");
+
+  workflow.overrideItemData = cloned;
+  console.log("✅ overrideItemData set.");
   });
 });
