@@ -3,7 +3,7 @@ console.log("🛡️ Holy Avenger Code Loaded");
 Hooks.once("ready", () => {
   console.log("🛡️ Holy Avenger Damage Hook Initialized");
 
-  Hooks.on("dnd5e.rollDamageV2", async (item, roll) => {
+  Hooks.on("dnd5e.rollDamage", async (item, roll) => {
     console.log("🛡️ Holy Avenger Hook Triggered");
     console.log(item);
 
