@@ -3,57 +3,33 @@ console.log("🛡️ Holy Avenger Code Loaded");
 Hooks.once("ready", () => {
   console.log("🛡️ Holy Avenger Damage Hook Initialized");
 
-  Hooks.on("midi-qol.postDamageRollComplete", async (workflow) => {
-    console.log("🛡️ Holy Avenger Hook Triggered");
+Hooks.on("midi-qol.preDamageRollComplete", async (workflow) => {
+  if (!workflow.item || workflow.item.type !== "weapon") return;
 
-    if (!workflow.item || workflow.item.type !== "weapon") {
-      console.log("❌ Not a weapon or no item.");
-      return;
+  const weaponName = workflow.item.name?.toLowerCase() || "";
+  if (!weaponName.includes("holy avenger")) return;
+
+  const target = workflow.hitTargets.first();
+  if (!target) return;
+
+  const creatureType = target.actor?.system.details?.type?.value?.toLowerCase();
+  if (!["fiend", "undead"].includes(creatureType)) return;
+
+  console.log("🛡️ Holy Avenger target is Fiend or Undead — boosting radiant damage.");
+
+  // Clone the damage parts array so we don't mutate future uses
+  const damageParts = foundry.utils.deepClone(workflow.item.system.damage.parts);
+
+  // Find the second radiant entry and change its value
+  for (let i = 0; i < damageParts.length; i++) {
+    if (damageParts[i][1] === "radiant" && damageParts[i][0] === "0") {
+      damageParts[i][0] = "2d10";
+      break;
     }
+  }
 
-    const weaponName = workflow.item.name?.toLowerCase() || "";
-    console.log(`🔍 Weapon name: ${weaponName}`);
-    if (!weaponName.includes("holy avenger")) {
-      console.log("❌ Weapon is not Holy Avenger. Skipping.");
-      return;
-    }
-
-    const actionType = workflow.item.system.actionType;
-    console.log(`🔍 Action type: ${actionType}`);
-    if (!["mwak", "rwak"].includes(actionType)) {
-      console.log("❌ Not a melee or ranged weapon attack. Skipping.");
-      return;
-    }
-
-    const target = workflow?.targets?.first(); // Use hitTargets only
-    if (!target) {
-      console.log("❌ No hit target found.");
-      return;
-    }
-
-    console.log(`🎯 Target name: ${target.name}`);
-
-    const creatureType = target.actor?.system.details?.type?.value?.toLowerCase() || "";
-    console.log(`🔍 Target creature type: ${creatureType}`);
-    if (!["fiend", "undead"].includes(creatureType)) {
-      console.log("❌ Target is not Fiend or Undead. Skipping bonus damage.");
-      return;
-    }
-
-    console.log("✅ Holy Avenger: Triggering damageOnlyWorkflow bonus");
-
-    await MidiQOL.damageOnlyWorkflow(
-      workflow.actor,
-      target,
-      "2d10",                     // damage
-      "radiant",                  // damage type
-      [target],                   // targets
-      {
-        flavor: "Holy Avenger: Bonus radiant damage vs Fiend/Undead",
-        itemCardId: workflow.itemCardId,
-        itemData: workflow.item,
-        isBonus: true
-      }
-    );
+  // Inject into workflow damage (overrides item damage for this roll)
+  workflow.damageRoll = null; // clear cached damage
+  workflow.item.system.damage.parts = damageParts;
   });
 });
