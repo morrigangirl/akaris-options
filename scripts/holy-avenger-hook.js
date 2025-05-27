@@ -4,6 +4,7 @@ Hooks.once("ready", () => {
   console.log("🛡️ Holy Avenger Damage Hook Initialized");
   
   Hooks.on("midi-qol.preAttackRoll", async (workflow) => {
+    console.log("Executing preAttackRoll Hook for 🛡️ Holy Avenger!")
     const item = workflow.item;
     if (!item || item.type !== "weapon") return;
 
