@@ -47,7 +47,7 @@ Hooks.once("ready", () => {
     console.log("✅ [Step 4] 'Holy Avenger' effect found on weapon.");
 
     // Proceed with checking targets
-    const targets = Array.from(workflow.targets ?? []);
+    const targets = Array.from(workflow.hitTargets ?? []);
     console.log(`🎯 [Step 5] Hit Targets Count: ${targets.length}`);
 
     if (targets.length === 0) {
