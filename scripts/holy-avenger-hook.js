@@ -19,9 +19,11 @@ Hooks.on("midi-qol.preDamageRollComplete", async (workflow) => {
 
   // Clone the damage parts array so we don't mutate future uses
   const damageParts = foundry.utils.deepClone(workflow.item.system.damage.parts);
+  console.log(damageParts); 
 
   // Find the second radiant entry and change its value
   for (let i = 0; i < damageParts.length; i++) {
+    
     if (damageParts[i][1] === "radiant" && damageParts[i][0] === "0") {
       damageParts[i][0] = "2d10";
       break;
