@@ -5,6 +5,7 @@ Hooks.once("ready", () => {
 
   Hooks.on("dnd5e.preRollDamage", async (item, config, options) => {
     console.log("🛡️ Holy Avenger Hook Triggered");
+    console.log(item);
 
     if (!item) {
       console.log("❌ No item found in the hook context.");
