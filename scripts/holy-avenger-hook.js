@@ -25,7 +25,7 @@ Hooks.once("ready", () => {
       return;
     }
 
-    const target = workflow?.hitTargets?.first(); // Use hitTargets only
+    const target = workflow?.targets?.first(); // Use hitTargets only
     if (!target) {
       console.log("❌ No hit target found.");
       return;
