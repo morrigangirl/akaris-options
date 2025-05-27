@@ -3,7 +3,7 @@ console.log("🛡️ Holy Avenger Code Loaded");
 Hooks.once("ready", () => {
   console.log("🛡️ Holy Avenger Damage Hook Initialized");
 
-  Hooks.on("midi-qol.preAttackRoll", async (workflow) => {
+  Hooks.on("midi-qol.preDamageRoll", async (workflow) => {
     console.log("🔁 [Hook: midi-qol.preAttackRoll] Fired");
 
     const item = workflow.item;
