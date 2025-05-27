@@ -52,15 +52,17 @@ Hooks.once("ready", () => {
       return;
     }
     console.log("✅ [Step 6] Target is Fiend or Undead. Preparing to apply bonus damage.");
+    const cloned = foundry.utils.deepClone(workflow.item.system);
+    console.log(`Clone Data: ${cloned}.`);
 
+    // Ensure path exists before modifying
+    if (!cloned.damage) cloned.damage = {};
+    if (!Array.isArray(cloned.damage.parts)) cloned.damage.parts = [];
 
+    cloned.damage.parts.push(["2d10", "radiant"]);
+    console.log("✅ Appended 2d10 radiant to cloned damage parts.");
 
-  // Clone item data and inject new damage part
-  const cloned = foundry.utils.deepClone(workflow.item.system);
-  cloned.damage.parts.push(["2d10", "radiant"]);
-  console.log("✅ Adding 2d10 radiant to item damage parts.");
-
-  workflow.overrideItemData = cloned;
-  console.log("✅ overrideItemData set.");
+    workflow.overrideItemData = cloned;
+    console.log("✅ overrideItemData set on workflow.");
   });
 });
