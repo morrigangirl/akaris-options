@@ -9,7 +9,7 @@ Hooks.on("midi-qol.preDamageRollComplete", async (workflow) => {
   const weaponName = workflow.item.name?.toLowerCase() || "";
   if (!weaponName.includes("holy avenger")) return;
 
-  const target = workflow.hitTargets.first();
+  const target = workflow.Targets.first();
   if (!target) return;
 
   const creatureType = target.actor?.system.details?.type?.value?.toLowerCase();
