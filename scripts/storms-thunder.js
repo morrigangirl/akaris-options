@@ -37,15 +37,22 @@ Hooks.once("ready", () => {
         continue;
       } 
 
+      // Inline owner resolution: prefer non-GM, fallback to GM
+      const ownerIds = Object.entries(targetActor.ownership)
+        .filter(([_, level]) => level >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)
+        .map(([id]) => id);
+
+      let ownerUser = game.users.find(u => ownerIds.includes(u.id) && !u.isGM)
+                    || game.users.find(u => ownerIds.includes(u.id) && u.isGM);
+      if (!ownerUser) {
+        console.warn(`❌ Could not find a user owner for ${target.name}.`);
+        continue;
+      }
+      
+
       const socket = socketlib.registerModule(MODULE_NAME);
       console.log(`📡 Calling promptReaction for ${target.name}`);
-      const ownerId = Object.entries(targetActor.ownership)
-        .find(([_, level]) => level >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)?.[0];
-      const ownerUser = game.users.get(ownerId);
-      console.log("🎯 Owner User:", ownerUser);
-
-
-      await socket.executeAsUser("storms-thunder-reaction", ownerId, target.document.uuid, attackerToken.document.uuid);
+      await socket.executeAsUser("storms-thunder-reaction", ownerUser.id, target.document.uuid, attackerToken.document.uuid);
     }
         
   });
