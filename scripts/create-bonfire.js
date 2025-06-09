@@ -75,7 +75,8 @@ async function akariCreateTileAndReturnId(tileParams) {
 
 async function promptStormsThunder(targetUuid, attackerUuid) {
   const targetToken = await fromUuid(targetUuid);
-  const attackerToken = await fromUuid(attackerUuid);
+  const attackerTokenDoc = await fromUuid(attackerUuid); // still needed
+  const attackerToken = attackerTokenDoc?.object; // this is the in-scene Token
   const targetActor = targetToken.actor;
 
   const feature = targetActor.items.find(i => i.name === "Storm's Thunder" && i.type === "feat");
