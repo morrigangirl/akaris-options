@@ -90,7 +90,7 @@ async function promptStormsThunder(targetUuid, attackerUuid) {
     console.log(`❌ No uses left for Storm's Thunder on ${targetToken.name}.`);
     return;
   }
-  console.log("🧪 Feature is embedded:", feature.parent === actor);
+  console.log("🧪 Feature is embedded:", feature.parent === targetActor);
   const confirm = await Dialog.confirm({
     title: "Storm's Thunder",
     content: `<p>${targetToken.name} took damage. Use Storm's Thunder to deal <strong>1d8 thunder</strong> damage to ${attackerToken.name}?</p>`
