@@ -115,7 +115,7 @@ async function promptStormsThunder(targetUuid, attackerUuid) {
       flavor: `${targetToken.name} retaliates with Storm’s Thunder!`,
       itemCardId: "new",
       isReaction: true,
-      damageRoll: roll
+      isCritical: false
     }
   );
 
