@@ -39,17 +39,19 @@ Hooks.once("ready", () => {
 
       const socket = socketlib.registerModule(MODULE_NAME);
       console.log(`📡 Calling promptReaction for ${target.name}`);
-      for (const userId in targetActor.ownership) {
-        if (targetActor.ownership[userId] === foundry.documents.BaseActor.metadata.ownership.OWNER) {
-          console.log(`User ID of the owner: ${userId}`);
-        }
-      }
+      const owners = Object.entries(targetActor.ownership)
+            .filter(([userId, level]) => level >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)
+            .map(([userId]) => userId);
+      console.log("✅ Actor Owners:", owners);
+      const ownerId = Object.entries(actor.ownership)
+        .find(([_, level]) => level >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)?.[0];
+      const ownerUser = game.users.get(ownerId);
+      console.log("🎯 Owner User:", ownerUser);
 
 
-      await socket.executeAsUser("storms-thunder-reaction", userId, target.document.uuid, attackerToken.document.uuid);
+      await socket.executeAsUser("storms-thunder-reaction", ownerId, target.document.uuid, attackerToken.document.uuid);
     }
         
   });
-
 
 });
