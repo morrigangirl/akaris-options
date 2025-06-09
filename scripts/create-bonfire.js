@@ -101,7 +101,7 @@ async function promptStormsThunder(targetUuid, attackerUuid) {
     console.log(`🛑 ${targetToken.name} declined to use Storm's Thunder.`);
     return;
   }
-
+/*
   const roll = await new Roll("1d8").roll({ async: true });
   await game.dice3d?.showForRoll?.(roll);
 
@@ -119,8 +119,10 @@ async function promptStormsThunder(targetUuid, attackerUuid) {
       isCritical: false
     }
   );
+*/
+  await feature.use();
 
-  await feature.update({ "uses.spent": uses.spent + 1 });
+  //await feature.update({ "uses.spent": uses.spent + 1 });
   console.log(`Total Uses Available: ${uses.spent}`);
   console.log(`✅ ${targetToken.name} used Storm's Thunder.`);
 
