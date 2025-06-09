@@ -85,6 +85,7 @@ async function promptStormsThunder(targetUuid, attackerUuid) {
   }
 
   const uses = feature.system.uses;
+  console.log(feature.system);
   console.log(`Total Uses Available: ${uses.value}`);
   if (!uses || uses.value < 1) {
     console.log(`❌ No uses left for Storm's Thunder on ${targetToken.name}.`);
@@ -119,7 +120,7 @@ async function promptStormsThunder(targetUuid, attackerUuid) {
     }
   );
 
-  await uses.update({ "value": uses.value - 1 });
+  await feature.update({ "system.uses.value": uses.value - 1 });
   console.log(`Total Uses Available: ${uses.value}`);
   console.log(`✅ ${targetToken.name} used Storm's Thunder.`);
 
