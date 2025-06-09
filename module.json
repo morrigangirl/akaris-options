@@ -29,7 +29,8 @@
     "scripts/flame-cloak.js",
     "scripts/create-bonfire.js",
     "scripts/holy-avenger-hook.js",
-    "scripts/storms-thunder.js"
+    "scripts/storms-thunder.js",
+    "inspiration-restoration-on-rest.js"
   ],
   "packs": [
     {
