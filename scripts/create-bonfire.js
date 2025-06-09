@@ -120,6 +120,12 @@ async function promptStormsThunder(targetUuid, attackerUuid) {
     }
   );
 */
+
+  // Store current targets and clear
+  const prevTargets = new Set(game.user.targets);
+  game.user.updateTokenTargets([]); // clear current targets
+  targetToken.setTarget(true, { user: game.user });
+
   await feature.use();
 
   //await feature.update({ "uses.spent": uses.spent + 1 });
