@@ -40,7 +40,7 @@ Hooks.once("ready", () => {
       const socket = socketlib.registerModule(MODULE_NAME);
       console.log(`📡 Calling promptReaction for ${target.name}`);
       for (const userId in targetActor.ownership) {
-        if (targetActor.ownership[userId] === CONST.DOCUMENT_PERMISSION_LEVELS.OWNER) {
+        if (targetActor.ownership[userId] === foundry.documents.BaseActor.metadata.ownership.OWNER) {
           console.log(`User ID of the owner: ${userId}`);
         }
       }
