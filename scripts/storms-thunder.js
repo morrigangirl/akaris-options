@@ -39,7 +39,11 @@ Hooks.once("ready", () => {
 
       const socket = socketlib.registerModule(MODULE_NAME);
       console.log(`📡 Calling promptReaction for ${target.name}`);
-      await socket.executeAsUser("storms-thunder-reaction", user, target.document.uuid, attackerToken.document.uuid);
+      const ownerUser = game.users.players.find(user => user.character?.id === targetActor.id || targetActor.isOwner && user.active);
+      console.log(`Owner User:  ${ownerUser}`);
+
+
+      await socket.executeAsUser("storms-thunder-reaction", ownerUser, target.document.uuid, attackerToken.document.uuid);
     }
         
   });
