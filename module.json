@@ -28,7 +28,8 @@
   "scripts": [
     "scripts/flame-cloak.js",
     "scripts/create-bonfire.js",
-    "scripts/holy-avenger-hook.js"
+    "scripts/holy-avenger-hook.js",
+    "scripts/storms-thunder.js"
   ],
   "packs": [
     {
