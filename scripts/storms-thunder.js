@@ -39,11 +39,7 @@ Hooks.once("ready", () => {
 
       const socket = socketlib.registerModule(MODULE_NAME);
       console.log(`📡 Calling promptReaction for ${target.name}`);
-      const owners = Object.entries(targetActor.ownership)
-            .filter(([userId, level]) => level >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)
-            .map(([userId]) => userId);
-      console.log("✅ Actor Owners:", owners);
-      const ownerId = Object.entries(actor.ownership)
+      const ownerId = Object.entries(targetActor.ownership)
         .find(([_, level]) => level >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)?.[0];
       const ownerUser = game.users.get(ownerId);
       console.log("🎯 Owner User:", ownerUser);
