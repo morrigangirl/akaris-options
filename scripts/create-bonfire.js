@@ -119,7 +119,8 @@ async function promptStormsThunder(targetUuid, attackerUuid) {
     }
   );
 
-  await feature.update({ "system.uses.value": uses.value - 1 });
+  await uses.update({ "value": uses.value - 1 });
+  console.log(`Total Uses Available: ${uses.value}`);
   console.log(`✅ ${targetToken.name} used Storm's Thunder.`);
 
 }
