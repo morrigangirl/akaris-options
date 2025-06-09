@@ -53,6 +53,7 @@ Hooks.once("ready", () => {
       const socket = socketlib.registerModule(MODULE_NAME);
       console.log(`📡 Calling promptReaction for ${target.name}`);
       await socket.executeAsUser("storms-thunder-reaction", ownerUser.id, target.document.uuid, attackerToken.document.uuid);
+      
     }
         
   });
