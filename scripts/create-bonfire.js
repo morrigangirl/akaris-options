@@ -4,7 +4,7 @@ Hooks.once("socketlib.ready", () => {
 	akariSocket = socketlib.registerModule("akaris-options");
 	akariSocket.register("akariCreateBonfire", akariCreateBonfire);
 	akariSocket.register("akariTileAndReturnId", akariCreateTileAndReturnId);
-  akariSocket.register("storms-thunder", "promptReaction", promptStormsThunder);
+  akariSocket.register("storms-thunder-reaction", promptStormsThunder);
 });
 
 
