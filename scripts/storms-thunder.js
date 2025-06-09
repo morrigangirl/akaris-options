@@ -1,3 +1,5 @@
+const MODULE_NAME = "akaris-options";
+
 Hooks.once("ready", () => {
   console.log("⚡ Storm's Thunder Hook Initialized");
 
@@ -27,28 +29,20 @@ Hooks.once("ready", () => {
         continue;
       }
 
-
       const distance = canvas.grid.measureDistance(target, attackerToken);
       console.log(`📏 Distance from ${target.name} to attacker: ${distance}ft`);
 
       if (distance > 60) {
         console.log(`❌ Attacker is out of range for ${targetToken.name}.`);
         continue;
-      }
-      
+      } 
+
+      const socket = socketlib.registerModule(MODULE_NAME);
+      console.log(`📡 Calling promptReaction for ${target.name}`);
+      await socket.executeForActor(target.actor.uuid, "promptReaction", target.document.uuid, attackerToken.document.uuid);
     }
-
-    console.log(`Beginning Retaliation Storm's Thunder.`);
-
-
-
-  
-
-    
-      
-
-
-
-
+        
   });
+
+
 });

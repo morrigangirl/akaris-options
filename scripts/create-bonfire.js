@@ -4,7 +4,9 @@ Hooks.once("socketlib.ready", () => {
 	akariSocket = socketlib.registerModule("akaris-options");
 	akariSocket.register("akariCreateBonfire", akariCreateBonfire);
 	akariSocket.register("akariTileAndReturnId", akariCreateTileAndReturnId);
+  akariSocket.register("storms-thunder", "promptReaction", promptStormsThunder);
 });
+
 
 Hooks.on("deleteActiveEffect", async (effect) => {
   const actor = effect.parent;
@@ -70,6 +72,54 @@ async function akariCreateTileAndReturnId(tileParams) {
   return placedTile.id;
 
 }
-   
+
+async function promptStormsThunder(targetUuid, attackerUuid) {
+  const targetToken = await fromUuid(targetUuid);
+  const attackerToken = await fromUuid(attackerUuid);
+  const targetActor = targetToken.actor;
+
+  const feature = targetActor.items.find(i => i.name === "Storm's Thunder" && i.type === "feat");
+  if (!feature) {
+    console.log(`❌ ${targetToken.name} does not have Storm's Thunder.`);
+    return;
+  }
+
+  const uses = feature.system.uses;
+  if (!uses || uses.value < 1) {
+    console.log(`❌ No uses left for Storm's Thunder on ${targetToken.name}.`);
+    return;
+  }
+
+  const confirm = await Dialog.confirm({
+    title: "Storm's Thunder",
+    content: `<p>${targetToken.name} took damage. Use Storm's Thunder to deal <strong>1d8 thunder</strong> damage to ${attackerToken.name}?</p>`
+  });
+
+  if (!confirm) {
+    console.log(`🛑 ${targetToken.name} declined to use Storm's Thunder.`);
+    return;
+  }
+
+  const roll = await new Roll("1d8").roll({ async: true });
+  await game.dice3d?.showForRoll?.(roll);
+
+  new MidiQOL.DamageOnlyWorkflow(
+    targetActor,
+    targetToken,
+    roll.total,
+    "thunder",
+    [attackerToken],
+    roll,
+    {
+      flavor: `${targetToken.name} retaliates with Storm’s Thunder!`,
+      itemCardId: "new",
+      isReaction: true,
+      damageRoll: roll
+    }
+  );
+
+  await feature.update({ "system.uses.value": uses.value - 1 });
+  console.log(`✅ ${targetToken.name} used Storm's Thunder.`);
+}
 
 
