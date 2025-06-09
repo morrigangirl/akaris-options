@@ -114,14 +114,14 @@ async function promptStormsThunder(targetUuid, attackerUuid) {
     roll,
     {
       flavor: `${targetToken.name} retaliates with Storm’s Thunder!`,
-      itemCardId: "new",
+      itemCardUuid: "new",
       isReaction: true,
       isCritical: false
     }
   );
 
   await feature.update({ "uses.spent": uses.spent + 1 });
-  console.log(`Total Uses Available: ${uses.value}`);
+  console.log(`Total Uses Available: ${uses.spent}`);
   console.log(`✅ ${targetToken.name} used Storm's Thunder.`);
 
 }
