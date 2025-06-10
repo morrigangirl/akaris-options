@@ -82,7 +82,7 @@ This module relies on the following FoundryVTT packages:
 
 The latest release is always available at: https://github.com/morrigangirl/akaris-options/releases/latest/download/module.json
 
-> Replace `your-username` with your actual GitHub username.
+
 
 ---
 
