@@ -2,7 +2,7 @@
   "id": "akaris-options",
   "title": "Akari's Options",
   "description": "Custom options and automation scripts for Akari's campaigns. Flame Cloak, Create Bonfire, Storm's Thunder, & Inspiration restoration on long rest for 2024 Humans.",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "socket": true,
   "authors": [
     {
