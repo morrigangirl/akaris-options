@@ -1,67 +1,100 @@
-# Akari's Options (FoundryVTT Module)
+# 🌟 Akari's Options
 
-This module provides custom rule logic and scripting designed for Akari’s homebrew campaigns. It is not a general-use module—this code assumes certain systems, player habits, and narrative-flavored pain responses.
-
----
-
-## 💡 Module Overview
-
-- **Homebrew Scripts** for specific campaign features
-- **Custom flag-driven effects** using Dynamic Active Effects (DAE)
-- **Player-controlled toggles** for reactive features
-- **Midi-QOL integration** for flag management and workflow hooks  
-  (_Note: This module **does not** use Midi-QOL's built-in `DamageOnlyWorkflow` system_)
+**Akari's Options** is a utility module for FoundryVTT that adds high-quality, automated support for various D&D 5e (2024 Rules) character features and item-based reactions. It is designed for GMs and players who want immersive, rules-compliant automation without the overhead of macro maintenance.
 
 ---
 
-## 🔥 Flame Cloak
+## ✨ Features
 
-Flame Cloak is a reactive fire damage feature triggered when a character with the flag `flags.midi-qol.flameCloak` is hit by a **melee weapon attack**.
+This module includes prebuilt automation for the following mechanics:
 
-### Key Features:
-- Automatically retaliates for **1d6 fire damage**
-- Triggers via the `dnd5e.rollDamage` hook
-- Bypasses resistance and immunity manually—does **not** rely on Midi-QOL’s internal logic
-- Manages state with a player-facing toggle button (via macro)
-- Displays an effect icon on the token when active
+### 🔥 Flame Cloak (Custom Effect)
+- **Trigger:** When a creature hits the cloaked target with a melee weapon attack.
+- **Effect:** Deals `1d6 fire` damage to the attacker automatically.
+- **Requirements:** `flags.midi-qol.flameCloak = true` must be set on the target actor.
 
 ---
 
-## ⚙️ Requirements
-
-- FoundryVTT v12+
-- [Midi-QOL](https://foundryvtt.com/packages/midi-qol)
-  - Used for flag tracking and combat workflow hooks
-- [Dynamic Active Effects (DAE)](https://foundryvtt.com/packages/dae)
-  - Used for setting and tracking custom actor flags
-- [Optional] Active Token Effects (ATE)
-  - For icon overlays and token toggles
+### ⚡ Storm’s Thunder (2024 Fighter Feature)
+- **Trigger:** When the character takes damage from a creature within 60 feet.
+- **Effect:** Prompts the player to use a Reaction to deal `1d8 thunder` damage to the attacker.
+- **Use Consumption:** Automatically decrements the feature's available uses.
+- **Range Check:** Enforced (60 ft).
+- **Prompt:** Appears only to the owning user of the affected character.
 
 ---
 
-## 🧯 Notes
-
-- Fire damage is applied manually and **always bypasses resistance and immunity**
-- You must ensure the attacking actor is using **melee weapon attacks** to trigger Flame Cloak
-- Flag logic (`midi-qol.flameCloak`) must be set via macro, effect, or item
+### 🛡️ Holy Avenger (Magic Weapon Bonus)
+- **Trigger:** When an Undead or Fiend is hit with a weapon attack from a weapon that has an active effect called "Holy Avenger".
+- **Effect:** Deals `2d10 radiant` bonus damage automatically.
 
 ---
 
-## 👑 Author
-
-Akari (Aoibh Wood)  
-GM | Writer | Burner of the Unburnable  
-Custom-built for the *Himeko* campaign setting.
-
----
-
-## 🧪 Not Designed For:
-- Generic use across all systems
-- Combat balance or strict 5e RAW
-- NPC safety
+### 🔥 Create Bonfire (Spell Automation)
+- **Prompt:** Spell use allows tile placement via active tile triggers (Monk's Active Tile Triggers required).
+- **Effect:** A 5-foot tile is created which:
+  - Deals `1d8 fire` to creatures ending their turn or entering it.
+  - Makes a DEX save (DC 10) via Monk's Token Bar.
+- **Auto Cleanup:** Tile is deleted when concentration ends.
 
 ---
 
-## 📜 License
+### 🌟 2024 Human Inspiration (Long Rest Bonus)
+- **Trigger:** When a 2024 Human completes a long rest.
+- **Effect:** Automatically grants Heroic Inspiration (if they don’t already have it).
+- **Condition:** Only applies to race items named `"Human"` with `rules: "2024"` in their source.
 
-Personal use and modification encouraged. If you share it, do it with style. If you fix it, tell me so I can take credit.
+---
+
+## 🔧 Dependencies
+
+This module relies on the following FoundryVTT packages:
+
+| Package              | Purpose                         |
+|----------------------|----------------------------------|
+| `dnd5e` v4.4.x       | D&D 5e 2024 ruleset support      |
+| `midi-qol` ≥ 12.4.0  | Automation of damage workflows   |
+| `socketlib`          | User-specific reaction prompts   |
+| `dae` (optional)     | Enhanced effect tracking         |
+| `monks-active-tiles` | Used for Create Bonfire triggers |
+
+---
+
+## 💻 Installation
+
+1. Clone or download the repository.
+2. Zip the contents (excluding hidden files).
+3. Host the zipped file or upload to FoundryVTT.
+4. Add the manifest URL to your Foundry installation.
+5. Enable the module in your world.
+
+---
+
+## ⚙️ Usage Notes
+
+- Some features require **player targeting** (e.g., Flame Cloak and Storm's Thunder).
+- Ensure player tokens are selected or targeted appropriately for triggers to work.
+- You can extend this module easily with your own automation hooks.
+
+---
+
+## 📦 GitHub Releases
+
+The latest release is always available at: https://github.com/morrigangirl/akaris-options/releases/latest/download/module.json
+
+> Replace `your-username` with your actual GitHub username.
+
+---
+
+## 🙋 Contribution
+
+This module is open to contributions. Please:
+- Follow the existing coding style.
+- Add documentation to new features.
+- Submit a PR or open an issue to discuss major features.
+
+---
+
+## 📄 License
+
+This module is licensed under the **MIT License**. Do whatever you want—just don’t blame me if it breaks something.
