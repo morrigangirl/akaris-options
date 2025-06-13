@@ -1,41 +1,123 @@
 Hooks.once("ready", () => {
-  console.log("✅ Topple Mastery (Midi-QOL) Hook Initialized");
 
-  // Store the hook ID globally in case you want to remove it later
-  window.toppleHookId = Hooks.on("midi-qol.postDamageRollComplete", async (workflow) => {
-    const item = workflow.item;
-    const actor = workflow.actor;
+// Register the "Slowed" status condition
+  CONFIG.statusEffects.push({
+    id: "slowed",
+    label: "Slowed", // This can be localized later
+    icon: "modules/akaris-options/icons/slowed-icon.webp",
+    // Optional: set to true if the effect has mechanical impact
+    flags: {
+      "akaris-options": true
+    }
+  });
 
-    if (!item || item.type !== "weapon") return;
+  console.log("✅ Registered custom 'Slowed' status effect");
+
+
+  console.log("✅ Mastery Hook Initialized (Topple + Slow)");
+
+  Hooks.on("dnd5e.rollDamage", async (item, roll) => {
+    console.debug("📌 [Mastery] Hook triggered: dnd5e.rollDamage");
+
+    if (!item || item.type !== "weapon") {
+      console.debug("⛔ [Mastery] Not a weapon item.");
+      return;
+    }
+
     const mastery = item.system.mastery?.toLowerCase() ?? "";
-    if (mastery !== "topple") return;
+    if (!["topple", "slow"].includes(mastery)) {
+      console.debug(`⛔ [Mastery] Mastery '${mastery}' not handled.`);
+      return;
+    }
 
-    console.log(`🌀 Topple triggered by ${actor.name} with ${item.name}`);
+    const attackerToken = item.parent?.getActiveTokens?.()[0];
+    if (!attackerToken) {
+      console.debug("⛔ [Mastery] No active attacker token found.");
+      return;
+    }
 
-    for (const targetToken of workflow.hitTargets) {
-      const target = targetToken.actor;
-      if (!target) continue;
+    console.debug(`[Mastery] Attacker: ${attackerToken.name}`);
+    console.debug(`[Mastery] Detected mastery: ${mastery}`);
 
-      // Optional: Check if already Prone
-      const alreadyProne = target.effects.some(e => e.label === "Prone");
-      if (alreadyProne) continue;
+    const targets = Array.from(game.user.targets);
+    if (!targets.length) {
+      console.debug("⛔ [Mastery] No targets selected.");
+      return;
+    }
 
-      // Apply the "Prone" condition using DFreds if available
-      if (game.dfreds?.effectInterface) {
-        await game.dfreds.effectInterface.addEffect({
-          effectName: "Prone",
-          uuid: target.uuid,
-          origin: item.uuid,
-        });
-      } else {
-        // Fallback: Add a basic prone effect manually
-        await target.createEmbeddedDocuments("ActiveEffect", [{
-          label: "Prone",
-          icon: "icons/svg/falling.svg",
-          origin: item.uuid,
-          changes: [],
-          duration: { rounds: 1 }
+    for (const targetToken of targets) {
+      const targetActor = targetToken.actor;
+      if (!targetActor) {
+        console.debug("⛔ [Mastery] Target has no actor.");
+        continue;
+      }
+
+      console.debug(`[Mastery] Evaluating target: ${targetToken.name}`);
+
+      // Handle "Topple"
+      if (mastery === "topple") {
+        const alreadyProne = targetActor.effects.some(e => e.label === "Prone");
+        console.debug(`[Topple] Is ${targetToken.name} already prone? ${alreadyProne}`);
+        if (alreadyProne) {
+          console.debug(`[Topple] Skipping: ${targetToken.name} is already prone.`);
+        } else {
+          if (game.dfreds?.effectInterface) {
+            console.debug(`[Topple] Applying 'Prone' to ${targetToken.name} via DFreds.`);
+            await game.dfreds.effectInterface.addEffect({
+              effectName: "Prone",
+              uuid: targetActor.uuid,
+              origin: item.uuid,
+            });
+          } else {
+            console.debug(`[Topple] Applying fallback Prone to ${targetToken.name}.`);
+            await targetActor.createEmbeddedDocuments("ActiveEffect", [{
+              label: "Prone",
+              icon: "icons/svg/falling.svg",
+              origin: item.uuid,
+              changes: [],
+              duration: { rounds: 1 }
+            }]);
+          }
+
+          console.debug(`✅ [Topple] Prone applied to ${targetToken.name}`);
+        }
+      }
+
+      // Handle "Slow"
+      if (mastery === "slow") {
+        const originId = item.uuid;
+        const existing = targetActor.effects.find(e => e.origin === originId && e.label === "Slowed");
+        if (existing) {
+          console.debug(`[Slow] Target ${targetToken.name} already has a Slow effect from this weapon.`);
+          continue;
+        }
+
+        console.debug(`[Slow] Applying -10ft speed to ${targetToken.name}`);
+
+        await targetActor.createEmbeddedDocuments("ActiveEffect", [{
+          label: "Slowed",
+          icon: "modules/akaris-options/icons/slowed-icon.webp",
+          origin: originId,
+          changes: [
+            {
+              key: "system.attributes.movement.walk",
+              mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+              value: -10,
+              priority: 20
+            }
+          ],
+          duration: {
+            rounds: 1,
+            startRound: game.combat?.round,
+            startTurn: game.combat?.turn
+          },
+          statuses: ["slowed"],
+          flags: {
+            "akaris-options": { "mastery": "slow" }
+          }
         }]);
+
+        console.debug(`✅ [Slow] Speed debuff applied to ${targetToken.name}`);
       }
     }
   });
