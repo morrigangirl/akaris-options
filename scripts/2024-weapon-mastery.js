@@ -1,6 +1,3 @@
-
-
-
 Hooks.once("ready", () => {
   console.log("✅ Topple Mastery (Midi-QOL) Hook Initialized");
 
