@@ -2,7 +2,7 @@
   "id": "akaris-options",
   "title": "Akari's Options",
   "description": "Custom options and automation scripts for Akari's campaigns. Flame Cloak, Create Bonfire, Storm's Thunder, & Inspiration restoration on long rest for 2024 Humans.",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "socket": true,
   "authors": [
     {
@@ -31,7 +31,8 @@
     "scripts/holy-avenger-hook.js",
     "scripts/storms-thunder.js",
     "scripts/inspiration-restoration-on-rest.js",
-    "scripts/2024-weapon-mastery.js"
+    "scripts/2024-weapon-mastery.js",
+    "scripts/combat-timeout.js"
   ],
   "packs": [
     {
